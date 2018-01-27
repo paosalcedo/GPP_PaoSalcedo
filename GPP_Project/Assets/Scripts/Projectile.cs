@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour {
 
-	float speed = 10;
+ 	public float speed = 30;
 	float damage = 10;
 
+	Player player;
+	void Start(){
+		player = FindObjectOfType<Player>();
+		speed = player.GetComponent<Rigidbody>().velocity.magnitude + speed;
+	}
 	void Update(){
-		transform.Translate(transform.forward * speed * Time.deltaTime);
+		transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+		// transform.
 	}
 
 }

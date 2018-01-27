@@ -13,6 +13,8 @@ public class InputActions {
 	public static float rotation;
 
 	public static bool fire;
+
+	public static bool restart_game;
   
 }
 

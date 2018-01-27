@@ -313,68 +313,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aa1b725ef04e504da57627b27957932, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1587320284 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1941288518799876, guid: 0e24efd6307739349b700f1eba7b7a59,
-    type: 2}
-  m_PrefabInternal: {fileID: 1787158545}
---- !u!54 &1587320285
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1587320284}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!1001 &1787158545
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4352925625690318, guid: 0e24efd6307739349b700f1eba7b7a59, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0.80371857
-      objectReference: {fileID: 0}
-    - target: {fileID: 4352925625690318, guid: 0e24efd6307739349b700f1eba7b7a59, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -0.1402874
-      objectReference: {fileID: 0}
-    - target: {fileID: 4352925625690318, guid: 0e24efd6307739349b700f1eba7b7a59, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -4.4131727
-      objectReference: {fileID: 0}
-    - target: {fileID: 4352925625690318, guid: 0e24efd6307739349b700f1eba7b7a59, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4352925625690318, guid: 0e24efd6307739349b700f1eba7b7a59, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4352925625690318, guid: 0e24efd6307739349b700f1eba7b7a59, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4352925625690318, guid: 0e24efd6307739349b700f1eba7b7a59, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4352925625690318, guid: 0e24efd6307739349b700f1eba7b7a59, type: 2}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 0e24efd6307739349b700f1eba7b7a59, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1950434361
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,6 +517,15 @@ MonoBehaviour:
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 0
+    - _id: 4
+      _name: Restart
+      _type: 1
+      _descriptiveName: Restart
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 0
     actionCategories:
     - _name: Default
       _descriptiveName: Default
@@ -588,7 +535,7 @@ MonoBehaviour:
     actionCategoryMap:
       list:
       - categoryId: 0
-        actionIds: 00000000010000000200000003000000
+        actionIds: 0000000001000000020000000300000004000000
     inputBehaviors:
     - _id: 0
       _name: Default
@@ -712,6 +659,28 @@ MonoBehaviour:
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 2
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 32
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 4
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 114
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
     mouseMaps:
     - id: 0
       categoryId: 0
@@ -731,10 +700,21 @@ MonoBehaviour:
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 2
+        _elementType: 1
+        _elementIdentifierId: 3
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 0
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
     customControllerMaps: []
     customControllers: []
     playerIdCounter: 2
-    actionIdCounter: 4
+    actionIdCounter: 5
     actionCategoryIdCounter: 1
     inputBehaviorIdCounter: 1
     mapCategoryIdCounter: 1
