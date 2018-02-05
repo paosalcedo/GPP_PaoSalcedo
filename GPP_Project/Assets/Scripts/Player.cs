@@ -5,6 +5,9 @@ using Rewired;
 using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour {
 
+	public static Player instance;
+	public float health;
+	public float shields;
 	[SerializeField]float moveSpeed;
 	Rewired.Player player;
 	private int playerId = 0;
@@ -15,6 +18,12 @@ public class Player : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		if(instance == null){
+			instance = this;
+			DontDestroyOnLoad(this);
+		} else {
+			Destroy(gameObject);
+		}
 		Cursor.lockState = CursorLockMode.Locked;
 		// Cursor.visible = false;
 		player = ReInput.players.GetPlayer(playerId);
@@ -24,6 +33,18 @@ public class Player : MonoBehaviour {
 	void Update(){
 		GetInput();
 		ProcessInput();
+
+		if(transform.position.x < -8.2f){
+			transform.position = new Vector3(8.2f, 0, transform.position.z);
+		} else if (transform.position.x > 8.2f){
+			transform.position = new Vector3(-8.2f, 0, transform.position.z);
+		}
+
+		if(transform.position.z < -5.5f){
+			transform.position = new Vector3(transform.position.x, 0, 25.6f);
+		} else if (transform.position.z > 25.6f){
+			transform.position = new Vector3(transform.position.x, 0, -5.5f);
+		}
  	}
 	
 	void GetInput(){
@@ -57,7 +78,7 @@ public class Player : MonoBehaviour {
 
 	private void CreateBullet(){
 		Projectile projectile = Instantiate(Resources.Load("Prefabs/Bullet"), transform.position, transform.rotation) as Projectile;	
-	}
+  	}
 
 	// Update is called once per frame
 
