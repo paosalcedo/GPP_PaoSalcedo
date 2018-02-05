@@ -20,6 +20,7 @@ namespace SubclassSandbox {
 		protected virtual void Update(){
 		}
 
+		//tool methods
 		protected AudioClip GetAudioClip(string _fileName){
 			AudioClip myAudio;
 			myAudio = Resources.Load<AudioClip>("Audio/" + _fileName);
