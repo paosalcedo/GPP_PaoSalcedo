@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bullet : SubclassSandbox.Enemy {
 
+	public Vector3 position;
 	// Use this for initialization
 	protected override void Start () {
 		base.Start();
@@ -33,9 +34,10 @@ public class Bullet : SubclassSandbox.Enemy {
 		Player.instance.health -= damage;
 	}
 
-	protected override void Shoot(){
-
+	protected override void Shoot(){	
 	}
+
+
 
 
 }

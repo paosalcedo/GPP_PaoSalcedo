@@ -11,13 +11,14 @@ public class Sniper : SubclassSandbox.Enemy {
 		base.Start();
 		speed = 5f;
 		downSpeed = 3f;
-		health = 100f;
+		health = 20f;
 		damage = 30f;	
 		thisSprite.sprite = GetSprite("sniper");
 	}
 	
 	// Update is called once per frame
 	protected override void Update () {
+		base.Update();
 		Move();
 		Shoot();
 	}

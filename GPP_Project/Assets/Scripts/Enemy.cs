@@ -18,6 +18,7 @@ namespace SubclassSandbox {
 			thisSprite = GetComponent<SpriteRenderer>();
 		}
 		protected virtual void Update(){
+			ReceiveDamage();
 		}
 
 		//tool methods
@@ -37,6 +38,12 @@ namespace SubclassSandbox {
 			return distanceToPlayer;
 		}
 
+		protected float GetDistanceToProjectile(Projectile _projectile){
+			float distanceToProjectile = 0;
+			distanceToProjectile = Vector3.Distance(gameObject.transform.position, _projectile.pos);
+			return distanceToProjectile;	
+		}
+
 		protected Vector3 GetPlayerDirection(GameObject _player){
 			Vector3 direction;
 			direction = _player.transform.position - transform.position; 
@@ -47,5 +54,19 @@ namespace SubclassSandbox {
 		protected abstract void Move();
 		protected abstract void Shoot();
 		protected abstract void ApplyDamage();
+
+		protected virtual void ReceiveDamage(){
+			Projectile[] allProjectiles = FindObjectsOfType<Projectile>();
+			foreach (var projectile in allProjectiles){
+				if(GetDistanceToProjectile(projectile) <= 1f){
+					health -= projectile.damage;
+					projectile.DestroyMe();
+ 				}
+			}
+		}
+
+		public void DestroyMe(){
+			Destroy(gameObject);
+		}
 	}
 }

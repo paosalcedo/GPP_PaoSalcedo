@@ -7,12 +7,14 @@ public class Homing : SubclassSandbox.Enemy {
 	protected override void Start(){
 		base.Start();
 		speed = 5;
-		health = 100;
+		health = 50;
 		damage = 50;
 		audioSource.clip = GetAudioClip("explosion_2");
 		thisSprite.sprite = GetSprite("homing");
 	}
 	protected override void Update(){
+		base.Update();
+		Debug.Log(health);
 		Move();
 		SelfDestructWhenInRangeOfPlayer();
 	}
