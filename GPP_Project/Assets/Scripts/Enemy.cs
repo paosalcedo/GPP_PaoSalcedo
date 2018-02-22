@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SubclassSandbox;
 using UnityEngine;
 
 namespace SubclassSandbox {
@@ -16,6 +17,7 @@ namespace SubclassSandbox {
 		protected virtual void Start(){
 			audioSource = GetComponent<AudioSource>();
 			thisSprite = GetComponent<SpriteRenderer>();
+			EventManager.Instance.Register<EnemyDeath>(OnEnemyDeath);
 		}
 		protected virtual void Update(){
 			ReceiveDamage();
@@ -50,6 +52,18 @@ namespace SubclassSandbox {
 		 	return direction;
 		 }
 
+		protected bool IsAlive()
+		{
+			if (health <= 0)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+
 		//Sandbox methods
 		protected abstract void Move();
 		protected abstract void Shoot();
@@ -68,5 +82,22 @@ namespace SubclassSandbox {
 		public void DestroyMe(){
 			Destroy(gameObject);
 		}
+
+		private void OnDestroy()
+		{
+			
+		}
+
+		private void OnEnemyDeath(GameEvent e){
+			EnemyDeath enemyDeathEvent = e as EnemyDeath; //manual cast
+ 		}
+		
+		
+	}
+}
+
+public class EnemyDeath : GameEvent{
+	public EnemyDeath(Enemy enemy){
+		Debug.Log("Lol enemy died!");		
 	}
 }
