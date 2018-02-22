@@ -50,7 +50,7 @@ namespace SubclassSandbox {
 			Vector3 direction;
 			direction = _player.transform.position - transform.position; 
 		 	return direction;
-		 }
+	 	}
 
 		protected bool IsAlive()
 		{
@@ -85,7 +85,9 @@ namespace SubclassSandbox {
 
 		private void OnDestroy()
 		{
-			
+			EventManager.Instance.Register<EnemyDeath>(OnEnemyDeath);
+
+			EventManager.Instance.Unregister<EnemyDeath>(OnEnemyDeath);
 		}
 
 		private void OnEnemyDeath(GameEvent e){
