@@ -24,31 +24,35 @@ public class EventManager {
 		}
 	}
 
-	private readonly Dictionary<System.Type, GameEvent.Handler> _eventTypeToHandlersMap = new Dictionary<System.Type, GameEvent.Handler>();
+	private readonly Dictionary<System.Type, GameEvent.Handler> eventTypeToHandlersMap = new Dictionary<System.Type, GameEvent.Handler>();
 
 	public void Register<T>(GameEvent.Handler handler) where T : GameEvent
 	{
-		System.Type type = typeof(GameEvent);
-		if (_eventTypeToHandlersMap.ContainsKey(type))
+		System.Type type = typeof(T);
+		if (eventTypeToHandlersMap.ContainsKey(type))
 		{
-			_eventTypeToHandlersMap[type] += handler;
+			eventTypeToHandlersMap[type] += handler;
 		}
 		else
 		{
-			_eventTypeToHandlersMap[type] = handler; 
+			eventTypeToHandlersMap[type] = handler; 
 		}
 	}
 
 	public void Unregister<T>(GameEvent.Handler handler) where T : GameEvent
 	{
-		System.Type type = typeof(GameEvent);
+		System.Type type = typeof(T);
 		GameEvent.Handler handlers;
-		if (_eventTypeToHandlersMap.TryGetValue(type, out handlers))
+		if (eventTypeToHandlersMap.TryGetValue(type, out handlers))
 		{
 			handlers -= handler;
 			if (handlers == null)
 			{				
-				_eventTypeToHandlersMap.Remove(type);
+				eventTypeToHandlersMap.Remove(type);
+			}
+			else
+			{
+				eventTypeToHandlersMap[type] = handlers;
 			}
 
 		}
@@ -58,7 +62,7 @@ public class EventManager {
 	{
 		System.Type type = e.GetType();
 		GameEvent.Handler handlers;
-		if (_eventTypeToHandlersMap.TryGetValue(type, out handlers))
+		if (eventTypeToHandlersMap.TryGetValue(type, out handlers))
 		{
 			handlers(e);
 		}

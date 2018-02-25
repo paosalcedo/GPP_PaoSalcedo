@@ -17,7 +17,6 @@ namespace SubclassSandbox {
 		protected virtual void Start(){
 			audioSource = GetComponent<AudioSource>();
 			thisSprite = GetComponent<SpriteRenderer>();
-			EventManager.Instance.Register<EnemyDeath>(OnEnemyDeath);
 		}
 		protected virtual void Update(){
 			ReceiveDamage();
@@ -79,27 +78,21 @@ namespace SubclassSandbox {
 			}
 		}
 
-		public void DestroyMe(){
+		public virtual void DestroyMe(){
+			EventManager.Instance.Fire(new EnemyDeath());
 			Destroy(gameObject);
 		}
 
 		private void OnDestroy()
 		{
-			EventManager.Instance.Register<EnemyDeath>(OnEnemyDeath);
-
-			EventManager.Instance.Unregister<EnemyDeath>(OnEnemyDeath);
 		}
 
-		private void OnEnemyDeath(GameEvent e){
-			EnemyDeath enemyDeathEvent = e as EnemyDeath; //manual cast
- 		}
+	
 		
 		
 	}
 }
 
 public class EnemyDeath : GameEvent{
-	public EnemyDeath(Enemy enemy){
-		Debug.Log("Lol enemy died!");		
-	}
+
 }

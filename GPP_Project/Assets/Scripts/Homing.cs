@@ -14,8 +14,7 @@ public class Homing : SubclassSandbox.Enemy {
 	}
 	protected override void Update(){
 		base.Update();
-		Debug.Log(health);
-		Move();
+ 		Move();
 		SelfDestructWhenInRangeOfPlayer();
 	}
 

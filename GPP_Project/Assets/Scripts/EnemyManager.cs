@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Rewired.ComponentControls.Effects;
 using UnityEngine;
 
 public class EnemyManager {
@@ -14,17 +15,16 @@ public class EnemyManager {
 	public void Update () {
 		if(enemiesInWave.Count<=0){
 			// enemies.Clear();
-			PopulateWave(Random.Range(0,2), Random.Range(5,10));
+			PopulateWave(Random.Range(0,3), Random.Range(5,20));
  		}
-		Debug.Log(enemiesInWave.Count);
-		 
+ 		 
 		if(enemiesInWave.Count > 0){
 			foreach (var enemy in enemiesInWave){
 				SubclassSandbox.Enemy _enemy = enemy.GetComponent<SubclassSandbox.Enemy>();
 				if(_enemy.health <= 0){
 					enemiesInWave.Remove(_enemy.gameObject);
 					_enemy.DestroyMe();
-				}
+ 				}
 			}
 		}
 	}
@@ -37,6 +37,11 @@ public class EnemyManager {
 				homingEnemy.AddComponent<Homing>();
 				homingEnemy.transform.position = Vector3.forward * Random.Range(50,100) + new Vector3 (Random.Range(-9,9), 0, Random.Range(50,100));				
 				enemiesInWave.Add(homingEnemy);
+				GameObject speedyEnemy = new GameObject ("SpeedyEnemy");
+				speedyEnemy.AddComponent<Speedy>();
+				// speedyEnemy.transform.position = Vector3.zero;
+				speedyEnemy.transform.position = Vector3.forward * Random.Range(50,100) + new Vector3 (Random.Range(-9,9), 0, Random.Range(50,100));				
+				enemiesInWave.Add(speedyEnemy);
  			}
 			break;
 			case 1: 
@@ -46,7 +51,30 @@ public class EnemyManager {
 				// sniperEnemy.transform.position = Vector3.zero;
 				sniperEnemy.transform.position = Vector3.forward * Random.Range(50,100) + new Vector3 (Random.Range(-9,9), 0, Random.Range(50,100));				
 				enemiesInWave.Add(sniperEnemy);
+				GameObject speedyEnemy = new GameObject ("SpeedyEnemy");
+				speedyEnemy.AddComponent<Speedy>();
+				// speedyEnemy.transform.position = Vector3.zero;
+				speedyEnemy.transform.position = Vector3.forward * Random.Range(50,100) + new Vector3 (Random.Range(-9,9), 0, Random.Range(50,100));				
+				enemiesInWave.Add(speedyEnemy);
 			}
+			break;
+			case 2: 
+				for (int i = 0; i<_numEnemies; i++){
+					GameObject speedyEnemy = new GameObject ("SpeedyEnemy");
+					speedyEnemy.AddComponent<Speedy>();
+					// speedyEnemy.transform.position = Vector3.zero;
+					speedyEnemy.transform.position = Vector3.forward * Random.Range(50,100) + new Vector3 (Random.Range(-9,9), 0, Random.Range(50,100));				
+					enemiesInWave.Add(speedyEnemy);
+					GameObject sniperEnemy = new GameObject ("SniperEnemy");
+					sniperEnemy.AddComponent<Sniper>();
+					// sniperEnemy.transform.position = Vector3.zero;
+					sniperEnemy.transform.position = Vector3.forward * Random.Range(50,100) + new Vector3 (Random.Range(-9,9), 0, Random.Range(50,100));				
+					enemiesInWave.Add(sniperEnemy);
+					GameObject homingEnemy = new GameObject("HomingEnemy");
+					homingEnemy.AddComponent<Homing>();
+					homingEnemy.transform.position = Vector3.forward * Random.Range(50,100) + new Vector3 (Random.Range(-9,9), 0, Random.Range(50,100));				
+					enemiesInWave.Add(homingEnemy);
+				}
 			break;
 			default:
 			break;
