@@ -82,13 +82,6 @@ namespace SubclassSandbox {
 			EventManager.Instance.Fire(new EnemyDeath());
 			Destroy(gameObject);
 		}
-
-		private void OnDestroy()
-		{
-		}
-
-	
-		
 		
 	}
 }

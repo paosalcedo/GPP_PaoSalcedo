@@ -7,7 +7,7 @@ public class EnemyManager {
 	public static EnemyManager enemyManager { get; set; }
 	public List<GameObject> enemiesInWave = new List<GameObject>();
 	public void Start () {
-		PopulateWave(0, 10);
+//		PopulateWave(0, 10);
 
 	}
 	
@@ -15,21 +15,24 @@ public class EnemyManager {
 	public void Update () {
 		if(enemiesInWave.Count<=0){
 			// enemies.Clear();
-			PopulateWave(Random.Range(0,3), Random.Range(5,20));
+//			PopulateWave(Random.Range(0,3), Random.Range(5,20));
  		}
  		 
 		if(enemiesInWave.Count > 0){
 			foreach (var enemy in enemiesInWave){
-				SubclassSandbox.Enemy _enemy = enemy.GetComponent<SubclassSandbox.Enemy>();
-				if(_enemy.health <= 0){
-					enemiesInWave.Remove(_enemy.gameObject);
-					_enemy.DestroyMe();
- 				}
+				if (enemy != null)
+				{
+					SubclassSandbox.Enemy _enemy = enemy.GetComponent<SubclassSandbox.Enemy>();
+					if(_enemy.health <= 0){
+						enemiesInWave.Remove(_enemy.gameObject);
+						_enemy.DestroyMe();
+					}
+				}
 			}
 		}
 	}
 
-	void PopulateWave(int _enemyId, int _numEnemies){
+	public void PopulateWave(int _enemyId, int _numEnemies){
 		switch (_enemyId){
 			case 0:
 			for (int i = 0; i<_numEnemies; i++){
@@ -78,6 +81,23 @@ public class EnemyManager {
 			break;
 			default:
 			break;
+		}
+	}
+	
+	public void PopulateWaveFromPosition(int _numEnemies, Vector3 _pos){
+		for (int i = 0; i<_numEnemies; i++){
+			GameObject speedyEnemy = new GameObject ("SpeedyEnemy");
+			speedyEnemy.AddComponent<Speedy>();
+			speedyEnemy.transform.position = _pos;				
+			enemiesInWave.Add(speedyEnemy);
+			GameObject sniperEnemy = new GameObject ("SniperEnemy");
+			sniperEnemy.AddComponent<Sniper>();
+			sniperEnemy.transform.position = _pos;
+			enemiesInWave.Add(sniperEnemy);
+			GameObject homingEnemy = new GameObject("HomingEnemy");
+			homingEnemy.AddComponent<Homing>();
+			homingEnemy.transform.position = _pos;		
+			enemiesInWave.Add(homingEnemy);
 		}
 	}
 
