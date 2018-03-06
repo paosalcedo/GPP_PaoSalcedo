@@ -61,7 +61,6 @@ public class Speedy : SubclassSandbox.Enemy {
 	{
 		EnemyDeath enemyDeath = e as EnemyDeath;
 		speed += 3;
-		Debug.Log(gameObject.name + " speed is now " + speed);
-	}
+ 	}
 
 }

@@ -1,23 +1,42 @@
 ﻿using System;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 using SubclassSandbox;
 
-public class Boss : MonoBehaviour
+public class Boss : SubclassSandbox.Enemy
 {
     private readonly TaskManager _tm = new TaskManager();
     private EnemyManager _em;
-    private void Start ()
-    {
+  
+    protected override void Start () {
+        base.Start();
+        speed = 5f;
+        health = 500f;
+         thisSprite.sprite = GetSprite("boss");
         _em = EnemyManager.enemyManager;
-        DoMyThing();
+        MyBehaviorPattern();
     }
 
-    private void Update ()
+    protected override void Update ()
     {
-        _tm.Update();
+         _tm.Update();
+        ReceiveDamage();
     }
 
-    private void DoMyThing()
+    protected override void Move()
+    {
+        
+    }
+
+    protected override void Shoot()
+    {   
+    }
+
+    protected override void ApplyDamage()
+    {
+    }
+
+    public void MyBehaviorPattern()
     {
         // Just setting up some variables so the task constructors below are a little easier to read...
         var startPos = Camera.main.ViewportToWorldPoint(new Vector3(0, 0.5f, 10));
@@ -31,13 +50,26 @@ public class Boss : MonoBehaviour
         _tm.Do(new SetPos(gameObject, midPos))
 
             // Then scale to 100%
-            .Then(new Scale(gameObject, startScale, endScale, 1f))
+            .Then(new ActionTask(()=>Debug.Log("I'm the bosssssss!!!!!")))
+            .Then(new Scale(gameObject, startScale, endScale, 5f))
+            .Then(new Move(gameObject, startPos, endPos, 2f))
+            .Then(new Wait(5))
+             .Then(new Scale(gameObject, endScale, startScale, 5f))
+            .Then(new Wait(5))
             .Then(new SpawnMinions(gameObject, 1, transform.position, 1))
-            .Then(new Scale(gameObject, endScale, startScale, 1f))
-            // Then reset the whole thing
-            .Then(new ActionTask(DoMyThing));
+            .Then(new ActionTask(MyBehaviorPattern));
     }
-
+    
+    protected override void ReceiveDamage(){
+        Projectile[] allProjectiles = FindObjectsOfType<Projectile>();
+        foreach (var projectile in allProjectiles){
+            if(GetDistanceToProjectile(projectile) <= 10f){
+                health -= projectile.damage;
+                Debug.Log("Boss was hit!");
+                projectile.DestroyMe();
+            }
+        }
+    }
 }
 
 public class Rotate : TimedGOTask
@@ -62,6 +94,7 @@ public class SpawnMinions : TimedGOTask
     
     public SpawnMinions(GameObject gameObject, int numEnemies, Vector3 startPosition, float duration) : base(gameObject, duration)
     {
+        Debug.Log("Spawning minions!");
         _startPosition = startPosition;
         EnemyManager.enemyManager.PopulateWaveFromPosition(numEnemies, startPosition);
     }

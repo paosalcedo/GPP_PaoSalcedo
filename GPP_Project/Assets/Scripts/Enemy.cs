@@ -13,7 +13,7 @@ namespace SubclassSandbox {
 		public AudioSource audioSource { get; set; }
 		public AudioClip clip { get; set;}
 		public SpriteRenderer thisSprite { get; set; }
-
+		
 		protected virtual void Start(){
 			audioSource = GetComponent<AudioSource>();
 			thisSprite = GetComponent<SpriteRenderer>();
@@ -73,7 +73,7 @@ namespace SubclassSandbox {
 			foreach (var projectile in allProjectiles){
 				if(GetDistanceToProjectile(projectile) <= 1f){
 					health -= projectile.damage;
-					projectile.DestroyMe();
+ 					projectile.DestroyMe();
  				}
 			}
 		}

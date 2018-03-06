@@ -15,6 +15,11 @@ public class Main : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		EnemyManager.enemyManager.Update(); 
+		EnemyManager.enemyManager.Update();
+		Debug.Log("Waves defeated = " + EnemyManager.enemyManager.wavesDefeated);
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			Debug.Log(EnemyManager.enemyManager.enemiesInWave.Count);
+		}
 	}
 }

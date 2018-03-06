@@ -11,9 +11,11 @@ public class Player : MonoBehaviour {
 	[SerializeField]float moveSpeed;
 	Rewired.Player player;
 	private int playerId = 0;
-
+	
+	private Vector3 lookVector;
 	private Vector3 moveVector;
 	private float myRotation = 0;
+	private float lookSensitivity = 0.1f;
 	Rigidbody rb;
 
 	// Use this for initialization
@@ -34,17 +36,17 @@ public class Player : MonoBehaviour {
 		GetInput();
 		ProcessInput();
 
-		if(transform.position.x < -8.2f){
-			transform.position = new Vector3(8.2f, 0, transform.position.z);
-		} else if (transform.position.x > 8.2f){
-			transform.position = new Vector3(-8.2f, 0, transform.position.z);
-		}
-
-		if(transform.position.z < -5.5f){
-			transform.position = new Vector3(transform.position.x, 0, 25.6f);
-		} else if (transform.position.z > 25.6f){
-			transform.position = new Vector3(transform.position.x, 0, -5.5f);
-		}
+//		if(transform.position.x < -8.2f){
+//			transform.position = new Vector3(8.2f, 0, transform.position.z);
+//		} else if (transform.position.x > 8.2f){
+//			transform.position = new Vector3(-8.2f, 0, transform.position.z);
+//		}
+//
+//		if(transform.position.z < -5.5f){
+//			transform.position = new Vector3(transform.position.x, 0, 25.6f);
+//		} else if (transform.position.z > 25.6f){
+//			transform.position = new Vector3(transform.position.x, 0, -5.5f);
+//		}
  	}
 	
 	void GetInput(){
@@ -52,6 +54,7 @@ public class Player : MonoBehaviour {
 		InputActions.moveVector.z = player.GetAxis("Move Vertical");
 		InputActions.moveVector.x = player.GetAxis("Move Horizontal");
 		InputActions.rotation = player.GetAxis("Rotate Ship");
+		lookVector.x = player.GetAxis("Rotate Ship");
 		InputActions.fire = player.GetButtonDown("Fire");
 		InputActions.restart_game = player.GetButtonDown("Restart");
 		// InputActions.i_fire =  
@@ -59,7 +62,7 @@ public class Player : MonoBehaviour {
 
 	void ProcessInput(){
 		//Movement
-		rb.velocity = InputActions.moveVector * moveSpeed;
+		transform.Translate(InputActions.moveVector * moveSpeed * Time.deltaTime);
 	
 		//Shooting
 		if(InputActions.fire){
@@ -68,8 +71,8 @@ public class Player : MonoBehaviour {
 
 		//Ship Rotation
 		myRotation += InputActions.rotation;
-		transform.rotation = Quaternion.Euler(0, myRotation, 0);
-
+		transform.Rotate (0, lookVector.x * lookSensitivity, 0);
+		
 		//Restart
 		if(InputActions.restart_game){
 			SceneManager.LoadScene("Main");
