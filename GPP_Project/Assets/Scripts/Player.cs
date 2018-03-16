@@ -11,11 +11,14 @@ public class Player : MonoBehaviour {
 	[SerializeField]float moveSpeed;
 	Rewired.Player player;
 	private int playerId = 0;
+	public GameObject myModel;
 	
 	private Vector3 lookVector;
 	private Vector3 moveVector;
 	private float myRotation = 0;
 	private float lookSensitivity = 0.1f;
+	float jetModelRotationZ = 0;
+ 	float t = 0;
 	Rigidbody rb;
 
 	// Use this for initialization
@@ -66,13 +69,35 @@ public class Player : MonoBehaviour {
 	
 		//Shooting
 		if(InputActions.fire){
+			Debug.Log("Firing!");
 			CreateBullet();
 		}
 
 		//Ship Rotation
-		myRotation += InputActions.rotation;
 		transform.Rotate (0, lookVector.x * lookSensitivity, 0);
+		//only rotate the ship model's zRotation
+		jetModelRotationZ = -InputActions.moveVector.x * 45;
+   		myModel.transform.localEulerAngles = new Vector3(0, 0, jetModelRotationZ);
 		
+		
+//		if (InputActions.moveVector.x < 0)
+//		{
+//			t += Time.deltaTime;
+//			zRot = Mathf.Lerp(0, 45f, t);
+//		}
+//		
+//		else if (InputActions.moveVector.x > 0)
+//		{
+//			t += Time.deltaTime;
+//			zRot = Mathf.Lerp(0, -45f, t);
+//		}
+//		else
+//		{
+//			t += Time.deltaTime;
+//			zRot = Mathf.Lerp(zRot, 0, t);
+//		}
+
+
 		//Restart
 		if(InputActions.restart_game){
 			SceneManager.LoadScene("Main");

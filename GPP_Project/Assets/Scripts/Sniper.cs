@@ -9,11 +9,11 @@ public class Sniper : SubclassSandbox.Enemy {
 	private bool hasFired;
 	protected override void Start () {
 		base.Start();
-		speed = 5f;
+		speed = 0.25f;
 		downSpeed = 3f;
 		health = 20f;
 		damage = 30f;	
-		thisSprite.sprite = GetSprite("sniper");
+		thisMeshFilter.mesh = GetMesh("sniper");
 	}
 	
 	// Update is called once per frame
@@ -24,17 +24,13 @@ public class Sniper : SubclassSandbox.Enemy {
 	}
 
 	protected override void Move(){
-		transform.Translate(transform.right * speed * Time.deltaTime);
-		transform.Translate(Vector3.back * downSpeed * Time.deltaTime);
-		if(transform.position.x < -8f){
-			speed *= -1f;
-		} else if (transform.position.x > 8f){
-			speed *= -1f;
-		}
+//		transform.Translate(transform.right * speed * Time.deltaTime);
+//		transform.Translate(Vector3.back * downSpeed * Time.deltaTime);
+		transform.Translate(GetPlayerDirection(Player.instance.gameObject) * speed * Time.deltaTime, Space.World);
 	}
 	protected override void Shoot(){
 		
-		if(GetDistanceToPlayer(Player.instance.gameObject) <= 30 && Vector3.Angle(GetPlayerDirection(Player.instance.gameObject), -transform.forward) <= 1){	
+		if(GetDistanceToPlayer(Player.instance.gameObject) <= 30 /*&& Vector3.Angle(GetPlayerDirection(Player.instance.gameObject), -transform.forward) <= 1*/){	
 			GameObject bullet = Instantiate(Resources.Load("Prefabs/SniperBullet"), transform.position, Quaternion.identity) as GameObject;
 			// hasFired = true;
  		} 

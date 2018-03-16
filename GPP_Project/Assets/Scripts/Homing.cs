@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ public class Homing : SubclassSandbox.Enemy {
 		health = 50;
 		damage = 50;
 		audioSource.clip = GetAudioClip("explosion_2");
-		thisSprite.sprite = GetSprite("homing");
+  		thisMeshFilter.mesh = GetMesh("homing");
 	}
 	protected override void Update(){
 		base.Update();
@@ -41,7 +42,7 @@ public class Homing : SubclassSandbox.Enemy {
 			if(!audioSource.isPlaying){
 				audioSource.PlayOneShot(audioSource.clip);
 			}
-			gameObject.GetComponent<SpriteRenderer>().enabled = false;
+			gameObject.GetComponent<MeshRenderer>().enabled = false;
 			Destroy(gameObject, audioSource.clip.length);
 		}
 	}

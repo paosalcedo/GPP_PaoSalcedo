@@ -12,7 +12,7 @@ public class Speedy : SubclassSandbox.Enemy {
 		speed = 50;
 		health = 20;
 		damage = 30;
-		thisSprite.sprite = GetSprite("speedy");
+		thisMeshFilter.mesh = GetMesh("speedy");
 		EventManager.Instance.Register<EnemyDeath>(SpeedUp);
 	}
 	protected override void Update(){
@@ -34,7 +34,7 @@ public class Speedy : SubclassSandbox.Enemy {
 //			transform.Translate(GetPlayerDirection(Player.instance.gameObject) * speed/2.5f * Time.deltaTime, Space.World);
 //			transform.rotation = Quaternion.Slerp(transform.rotation,)
 		} else {
-			transform.Translate(-transform.forward * speed * Time.deltaTime, Space.World);
+			transform.Translate(GetPlayerDirection(Player.instance.gameObject) * speed * Time.deltaTime, Space.World);
 		}
 		// transform.Translate(Player.instance.transform.position * speed * Time.deltaTime);
 		// transform.Translate()
@@ -47,7 +47,7 @@ public class Speedy : SubclassSandbox.Enemy {
 		} 
 	}
 
-	public override void DestroyMe()
+	protected override void DestroyMe()
 	{
 		EventManager.Instance.Unregister<EnemyDeath>(SpeedUp);
 		base.DestroyMe();

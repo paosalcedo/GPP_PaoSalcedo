@@ -4,7 +4,8 @@ using SubclassSandbox;
 using UnityEngine;
 
 namespace SubclassSandbox {
-	[RequireComponent(typeof(SpriteRenderer))]
+	[RequireComponent(typeof(MeshFilter))]
+	[RequireComponent(typeof(MeshRenderer))]
 	[RequireComponent(typeof(AudioSource))]
 	public abstract class Enemy : MonoBehaviour {
 		public float speed { get; set; }
@@ -13,13 +14,20 @@ namespace SubclassSandbox {
 		public AudioSource audioSource { get; set; }
 		public AudioClip clip { get; set;}
 		public SpriteRenderer thisSprite { get; set; }
+		public MeshFilter thisMeshFilter { get; set; }
 		
-		protected virtual void Start(){
+		protected virtual void Start()
+		{
 			audioSource = GetComponent<AudioSource>();
 			thisSprite = GetComponent<SpriteRenderer>();
+			thisMeshFilter = GetComponent<MeshFilter>();
 		}
 		protected virtual void Update(){
 			ReceiveDamage();
+			if (health <= 0)
+			{
+				DestroyMe();
+			}
 		}
 
 		//tool methods
@@ -33,6 +41,14 @@ namespace SubclassSandbox {
 			mySprite = Resources.Load<Sprite>("Sprites/" + _fileName);
 			return mySprite; 
 		}
+
+		protected Mesh GetMesh(string _fileName)
+		{
+			Mesh myMesh;
+			myMesh = Resources.Load<Mesh>("Models/" + _fileName);
+			return myMesh; 
+		}
+
 		protected float GetDistanceToPlayer(GameObject _player){
 			float distanceToPlayer;
 			distanceToPlayer = Vector3.Distance(gameObject.transform.position, _player.transform.position);
@@ -73,16 +89,17 @@ namespace SubclassSandbox {
 			foreach (var projectile in allProjectiles){
 				if(GetDistanceToProjectile(projectile) <= 1f){
 					health -= projectile.damage;
+					Debug.Log("You hit " + gameObject.name);
  					projectile.DestroyMe();
  				}
 			}
 		}
 
-		public virtual void DestroyMe(){
+		protected virtual void DestroyMe(){
 			EventManager.Instance.Fire(new EnemyDeath());
 			Destroy(gameObject);
 		}
-		
+
 	}
 }
 

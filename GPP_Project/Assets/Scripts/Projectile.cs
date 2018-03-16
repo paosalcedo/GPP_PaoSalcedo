@@ -10,6 +10,7 @@ public class Projectile : MonoBehaviour {
 	float lifeTime = 5f;
 	Player player;
 	void Start(){
+		Debug.Log("Player Bullet operational!");
 		player = FindObjectOfType<Player>();
 		speed = player.GetComponent<Rigidbody>().velocity.magnitude + speed;
 	}

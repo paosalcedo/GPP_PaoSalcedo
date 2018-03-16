@@ -7,20 +7,25 @@ public class Boss : SubclassSandbox.Enemy
 {
     private readonly TaskManager _tm = new TaskManager();
     private EnemyManager _em;
-  
+    private float critHealth = 0;
     protected override void Start () {
         base.Start();
         speed = 5f;
         health = 500f;
-         thisSprite.sprite = GetSprite("boss");
-        _em = EnemyManager.enemyManager;
-        MyBehaviorPattern();
+        critHealth = health * 0.15f;
+        thisMeshFilter.mesh = GetMesh("Boss");
+         _em = EnemyManager.enemyManager;
+        FirstBehaviorPattern();
     }
 
     protected override void Update ()
     {
          _tm.Update();
         ReceiveDamage();
+        if (health <= critHealth)
+        {
+            //change behaviour
+        }
     }
 
     protected override void Move()
@@ -30,45 +35,66 @@ public class Boss : SubclassSandbox.Enemy
 
     protected override void Shoot()
     {   
+        GameObject bullet = Instantiate(Resources.Load("Prefabs/BossBullet"), transform.position, Quaternion.identity) as GameObject;
     }
 
     protected override void ApplyDamage()
     {
     }
 
-    public void MyBehaviorPattern()
+    public void FirstBehaviorPattern()
     {
         // Just setting up some variables so the task constructors below are a little easier to read...
-        var startPos = Camera.main.ViewportToWorldPoint(new Vector3(0, 0.5f, 10));
-        var endPos = Camera.main.ViewportToWorldPoint(new Vector3(1, 0.5f, 10));
-        var midPos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 10));
-
+//        var startPos = Camera.main.ViewportToWorldPoint(new Vector3(0, 0.5f, 10));
+//        var endPos = Camera.main.ViewportToWorldPoint(new Vector3(1, 0.5f, 10));
+//        var midPos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 10));
+        var myStartPos = transform.position;
+        var myEndPos = Player.instance.transform.position + (Vector3.forward * 10f) + (Vector3.left * 10f);
+        var myMidPos = Player.instance.transform.position + Vector3.one;
+        
         var startScale = Vector3.one;
         var endScale = startScale * 5;
 
         // Teleport to center.
-        _tm.Do(new SetPos(gameObject, midPos))
+        _tm.Do(new SetPos(gameObject, Vector3.zero))
 
             // Then scale to 100%
-            .Then(new ActionTask(()=>Debug.Log("I'm the bosssssss!!!!!")))
             .Then(new Scale(gameObject, startScale, endScale, 5f))
-            .Then(new Move(gameObject, startPos, endPos, 2f))
-            .Then(new Wait(5))
-             .Then(new Scale(gameObject, endScale, startScale, 5f))
-            .Then(new Wait(5))
-            .Then(new SpawnMinions(gameObject, 1, transform.position, 1))
-            .Then(new ActionTask(MyBehaviorPattern));
+            .Then(new Move(gameObject, myStartPos, myEndPos, 2f))
+            .Then(new BasicAttack(gameObject, 1f))
+            .Then(new BasicAttack(gameObject, 1f))
+            .Then(new BasicAttack(gameObject, 1f))
+            .Then(new BasicAttack(gameObject, 1f))
+            .Then(new BasicAttack(gameObject, 1f))
+            .Then(new BasicAttack(gameObject, 1f))
+//             .Then(new Scale(gameObject, endScale, startScale, 5f))
+            .Then(new Move(gameObject, myEndPos, myStartPos, 2f))
+            .Then(new BasicAttack(gameObject, 1f))
+            .Then(new BasicAttack(gameObject, 1f))
+            .Then(new BasicAttack(gameObject, 1f))
+            .Then(new BasicAttack(gameObject, 1f))
+            .Then(new BasicAttack(gameObject, 1f))
+            .Then(new BasicAttack(gameObject, 1f))
+            .Then(new Scale(gameObject, endScale, startScale, 5f))
+//             .Then(new SpawnMinions(gameObject, 1, transform.position, 1))
+            .Then(new ActionTask(FirstBehaviorPattern));
     }
     
     protected override void ReceiveDamage(){
-        Projectile[] allProjectiles = FindObjectsOfType<Projectile>();
-        foreach (var projectile in allProjectiles){
-            if(GetDistanceToProjectile(projectile) <= 10f){
-                health -= projectile.damage;
-                Debug.Log("Boss was hit!");
-                projectile.DestroyMe();
-            }
-        }
+//        Projectile[] allProjectiles = FindObjectsOfType<Projectile>();
+//        foreach (var projectile in allProjectiles){
+//            if(GetDistanceToProjectile(projectile) <= 10f){
+//                health -= projectile.damage;
+//                Debug.Log("Boss was hit!");
+//                projectile.DestroyMe();
+//            }
+//        }
+        Debug.Log("Nothing here!");
+    }
+
+    public void BossAttack()
+    {
+        Shoot();
     }
 }
 
@@ -94,12 +120,46 @@ public class SpawnMinions : TimedGOTask
     
     public SpawnMinions(GameObject gameObject, int numEnemies, Vector3 startPosition, float duration) : base(gameObject, duration)
     {
-        Debug.Log("Spawning minions!");
-        _startPosition = startPosition;
+         _startPosition = startPosition;
         EnemyManager.enemyManager.PopulateWaveFromPosition(numEnemies, startPosition);
     }
-
 }
+
+public class BasicAttack : TimedGOTask
+{
+    public BasicAttack(GameObject gameObject, float duration) : base(gameObject, duration)
+    {
+//        if (gameObject.GetComponent<Boss>() != null)
+//        {
+//            Debug.Log("Boss attack!");
+//            Boss _boss = gameObject.GetComponent<Boss>();
+//            _boss.BossAttack();
+//        }
+    }
+    
+    protected override void OnTick(float t)
+    {
+        Boss _boss = gameObject.GetComponent<Boss>();
+        _boss.BossAttack();
+    }
+}
+
+/*public class Move : TimedGOTask
+{
+    public Vector3 Start { get; private set; }
+    public Vector3 End { get; private set; }
+
+    public Move(GameObject gameObject, Vector3 start, Vector3 end, float duration) : base(gameObject, duration)
+    {
+        Start = start;
+        End = end;
+    }
+
+    protected override void OnTick(float t)
+    {
+        gameObject.transform.position = Vector3.Lerp(Start, End, t);
+    }
+}*/
 
 
 
