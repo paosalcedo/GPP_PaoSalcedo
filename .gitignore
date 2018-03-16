@@ -32,6 +32,9 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+*.tif
+*.zip
+*.exr
 GPP_Project/Assets/Plugins/Editor/JetBrains/Unity3DRider.cs
 GPP_Project/.idea/.idea.GPP_Project/riderModule.iml
 GPP_Project/.idea/.idea.GPP_Project/.idea/modules.xml
@@ -42,3 +45,5 @@ GPP_Project/Assets/Plugins.meta
 GPP_Project/.idea/.idea.GPP_Project/.idea/workspace.xml
 GPP_Project/.idea/.idea.GPP_Project/.idea/indexLayout.xml
 GPP_Project/Assets/Plugins/Editor/JetBrains.meta
+
+
