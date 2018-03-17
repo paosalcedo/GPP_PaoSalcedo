@@ -5,14 +5,18 @@ using UnityEngine;
 public class Bullet : SubclassSandbox.Enemy {
 
 	public Vector3 position;
+
+	private float homingTime;
 	// Use this for initialization
 	protected override void Start () {
 		base.Start();
-		speed = 100f;
+		homingTime = 1f;
+		speed = 10f;
 		health = 0;
 		damage = 20f;
 		Destroy(gameObject, 3f);
 		audioSource.clip = GetAudioClip("sniper");
+		audioSource.volume = 0.02f;
 		audioSource.Play();
 		thisSprite.sprite = GetSprite("new_bullet");
 	}
@@ -26,8 +30,18 @@ public class Bullet : SubclassSandbox.Enemy {
 		}
 	}
 
-	protected override void Move(){
-		transform.Translate(Vector3.back * speed * Time.deltaTime);
+	protected override void Move()
+	{
+		homingTime -= Time.deltaTime;
+		if (homingTime > 0)
+		{
+			transform.Translate((GetPlayerDirection(Player.instance.gameObject) + Random.insideUnitSphere) * speed * Time.deltaTime);		
+		}
+		else
+		{
+			transform.Translate(Random.insideUnitCircle * speed * Time.deltaTime);		
+		}
+
 	}
 
 	protected override void ApplyDamage(){
