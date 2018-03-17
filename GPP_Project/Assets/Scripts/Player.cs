@@ -105,7 +105,7 @@ public class Player : MonoBehaviour {
 	}
 
 	private void CreateBullet(){
-		Projectile projectile = Instantiate(Resources.Load("Prefabs/Bullet"), transform.position, transform.rotation) as Projectile;	
+		Projectile projectile = Instantiate(Resources.Load("Prefabs/PlayerBullet"), transform.position, transform.rotation) as Projectile;	
   	}
 
 	// Update is called once per frame

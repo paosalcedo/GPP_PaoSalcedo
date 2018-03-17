@@ -176,8 +176,7 @@ public class EnemyManager {
 			GameObject homingEnemy = new GameObject("HomingEnemy");
 			homingEnemy.AddComponent<Homing>();
 			homingEnemy.transform.position = _pos;		
-			enemiesInWave.Add(homingEnemy);
-		}
+ 		}
 	}
 
 	void WaveTimer(){

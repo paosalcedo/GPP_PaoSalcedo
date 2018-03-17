@@ -50,7 +50,7 @@ public abstract class Task {
     // Convenience method for external classes to abort the task
     public void Abort()
     {
-        SetStatus(TaskStatus.Aborted);
+         SetStatus(TaskStatus.Aborted);
     }
 
     // A method for changing the status of the task
