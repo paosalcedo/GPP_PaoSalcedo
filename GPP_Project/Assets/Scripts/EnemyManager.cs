@@ -7,15 +7,19 @@ using UnityEngine;
 public class EnemyManager {
 	public static EnemyManager enemyManager { get; set; }
 	public List<GameObject> enemiesInWave = new List<GameObject>();
-	public int wavesDefeated = 0;
+	public List<GameObject> bossMinionWave = new List<GameObject>();
+ 	public int wavesDefeated = 0;
 	public int waveNum = 0;
 	public int enemiesDead;
 	public int enemiesToSpawn;
+	private int bossMinionsKilled;
+	private int bossWaveSize = 5;
 	private bool bossAdded = false;
+	private GameObject _boss;
 	
 	public void Start ()
 	{
-		waveNum = 3;
+		waveNum = 0;
 		enemyEmissionTime = 5;
 		enemiesToSpawn = 1;
 		EventManager.Instance.Register<EnemyDeath>(CountEnemyDeath);
@@ -44,8 +48,13 @@ public class EnemyManager {
 				enemiesToSpawn = 1;
 			}
 
-			Debug.Log("Enemiees in next wave: " + enemiesToSpawn);
 			enemiesDead = 0;
+		}
+
+		if (bossMinionsKilled == bossMinionWave.Count && bossMinionsKilled != 0)
+		{
+			bossMinionWave.Clear();
+			bossMinionsKilled = 0;
 		}
 //		if(enemiesInWave.Count > 0){
 //			foreach (var enemy in enemiesInWave){
@@ -67,43 +76,71 @@ public class EnemyManager {
 //		}
 	}
 
-	public void SpawnSpecificEnemy(int _enemyId, Vector3 _pos)
+//	public void SpawnSpecificEnemy(int _enemyId, Vector3 _pos)
+//	{
+//		enemiesSpawned++;
+//		
+//		switch (_enemyId){
+//			case 0: //Homing Enemy
+//				GameObject homingEnemy = new GameObject("HomingEnemy");
+//				homingEnemy.AddComponent<Homing>();
+// 				homingEnemy.transform.position = _pos;
+//				enemiesInWave.Add(homingEnemy); 
+// 			break;
+//			case 1: //sniper enemy
+// 				GameObject sniperEnemy = new GameObject ("SniperEnemy");
+//				sniperEnemy.AddComponent<Sniper>();
+// 				sniperEnemy.transform.position = _pos;				
+//				enemiesInWave.Add(sniperEnemy);
+// 			break;
+//			case 2: //speedy enemy
+//				GameObject speedyEnemy = new GameObject ("SpeedyEnemy");
+//				speedyEnemy.AddComponent<Speedy>();
+//				speedyEnemy.transform.position = _pos;				
+//				enemiesInWave.Add(speedyEnemy);
+//			break;
+//			case 3: //boss
+//				GameObject boss = new GameObject("Boss");
+// 				boss.AddComponent<Boss>();
+// 				enemiesInWave.Add(boss);
+//			break;
+//			default:
+//			break;
+//		}
+//	}
+
+	public GameObject SpawnSpecificEnemy(int _enemyId, Vector3 _pos)
 	{
 		enemiesSpawned++;
-		
 		switch (_enemyId){
 			case 0: //Homing Enemy
 				GameObject homingEnemy = new GameObject("HomingEnemy");
 				homingEnemy.AddComponent<Homing>();
-// 				homingEnemy.transform.position = Vector3.forward * Random.Range(50,100) + new Vector3 (Random.Range(-9,9), 0, Random.Range(50,100));				
-				homingEnemy.transform.position = _pos + Vector3.forward * 100;
-				enemiesInWave.Add(homingEnemy); 
- 			break;
+ 				homingEnemy.transform.position = _pos;
+				return homingEnemy;
+  			break;
 			case 1: //sniper enemy
  				GameObject sniperEnemy = new GameObject ("SniperEnemy");
 				sniperEnemy.AddComponent<Sniper>();
- 				sniperEnemy.transform.position = Vector3.forward * Random.Range(50,100) + new Vector3 (Random.Range(-9,9), 0, Random.Range(50,100));				
-				enemiesInWave.Add(sniperEnemy);
- 			break;
+ 				sniperEnemy.transform.position = _pos;
+				return sniperEnemy;
+  			break;
 			case 2: //speedy enemy
 				GameObject speedyEnemy = new GameObject ("SpeedyEnemy");
 				speedyEnemy.AddComponent<Speedy>();
-				speedyEnemy.transform.position = Vector3.forward * Random.Range(50,100) + new Vector3 (Random.Range(-9,9), 0, Random.Range(50,100));				
-				enemiesInWave.Add(speedyEnemy);
-//				GameObject homingEnemy0 = new GameObject("HomingEnemy");
-//				homingEnemy0.AddComponent<Homing>();
-//				homingEnemy0.transform.position = Vector3.forward * Random.Range(50,100) + new Vector3 (Random.Range(-9,9), 0, Random.Range(50,100));				
-//				enemiesInWave.Add(homingEnemy0);
-			break;
+				speedyEnemy.transform.position = _pos;
+				return speedyEnemy;
+ 			break;
 			case 3: //boss
 				GameObject boss = new GameObject("Boss");
  				boss.AddComponent<Boss>();
-//				boss.GetComponent<Boss>().MyBehaviorPattern();
-				enemiesInWave.Add(boss);
-			break;
+				_boss = boss;
+				return boss;
+ 			break;
 			default:
+				return null;
 			break;
-		}
+		}	
 	}
 
 	public int enemiesSpawned = 0;
@@ -120,7 +157,7 @@ public class EnemyManager {
 					enemyEmissionTime += Time.deltaTime;
 					if (enemyEmissionTime >= 5)
 					{
- 						SpawnSpecificEnemy(0, Vector3.zero);
+ 						enemiesInWave.Add(SpawnSpecificEnemy(0, Vector3.forward * 100f));
 						enemyEmissionTime = 0;
 					}
 				}
@@ -132,7 +169,8 @@ public class EnemyManager {
 					enemyEmissionTime += Time.deltaTime;
 					if (enemyEmissionTime >= 1)
 					{
-						SpawnSpecificEnemy(1, Vector3.zero);
+//						SpawnSpecificEnemy(1, Vector3.forward * 100f);
+						enemiesInWave.Add(SpawnSpecificEnemy(1, Vector3.forward * 100f));
 						enemyEmissionTime = 0;
 					}
 				}
@@ -144,7 +182,8 @@ public class EnemyManager {
 					enemyEmissionTime += Time.deltaTime;
 					if (enemyEmissionTime >= 1)
 					{
-						SpawnSpecificEnemy(2, Vector3.zero);
+//						SpawnSpecificEnemy(2, Vector3.forward * 100f);
+						enemiesInWave.Add(SpawnSpecificEnemy(2, Vector3.forward * 100f));
 						enemyEmissionTime = 0;
 					}
 				}
@@ -156,7 +195,7 @@ public class EnemyManager {
 					enemyEmissionTime += Time.deltaTime;
 					if (enemyEmissionTime >= 1)
 					{
-						SpawnSpecificEnemy(3, Vector3.zero);
+						enemiesInWave.Add(SpawnSpecificEnemy(3, Vector3.zero));
 						enemyEmissionTime = 0;
 					}
 				}
@@ -167,16 +206,17 @@ public class EnemyManager {
 		}
 	}
 	
-	public void PopulateWaveFromPosition(int _numEnemies, Vector3 _pos){
+	public void SpawnBossMinionWave(int _numEnemies, Vector3 _pos){
 		for (int i = 0; i<_numEnemies; i++){
 //			GameObject speedyEnemy = new GameObject ("SpeedyEnemy");
 //			speedyEnemy.AddComponent<Speedy>();
 //			speedyEnemy.transform.position = _pos;				
 //			enemiesInWave.Add(speedyEnemy);
-			GameObject homingEnemy = new GameObject("HomingEnemy");
-			homingEnemy.AddComponent<Homing>();
-			homingEnemy.transform.position = _pos;		
- 		}
+			if (bossMinionWave.Count < bossWaveSize)
+			{
+				bossMinionWave.Add(SpawnSpecificEnemy(Random.Range(0,2), _pos));				
+			}
+		}
 	}
 
 	void WaveTimer(){
@@ -185,6 +225,15 @@ public class EnemyManager {
 	public void CountEnemyDeath(GameEvent e)
 	{
 		EnemyDeath enemyDeath = e as EnemyDeath;
-		enemiesDead++;
+		if (waveNum != 3)
+		{
+			enemiesDead++;		
+		}
+		else
+		{
+			bossMinionsKilled++;
+		}
+
+
 	}
 }

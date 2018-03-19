@@ -15,12 +15,13 @@ namespace SubclassSandbox {
 		public AudioClip clip { get; set;}
 		public SpriteRenderer thisSprite { get; set; }
 		public MeshFilter thisMeshFilter { get; set; }
-		
+		public MeshRenderer thisMeshRenderer { get; set; }
 		protected virtual void Start()
 		{
 			audioSource = GetComponent<AudioSource>();
 			thisSprite = GetComponent<SpriteRenderer>();
 			thisMeshFilter = GetComponent<MeshFilter>();
+			thisMeshRenderer = GetComponent<MeshRenderer>();
 		}
 		protected virtual void Update(){
 			ReceiveDamage();
@@ -47,6 +48,13 @@ namespace SubclassSandbox {
 			Mesh myMesh;
 			myMesh = Resources.Load<Mesh>("Models/" + _fileName);
 			return myMesh; 
+		}
+
+		protected Material GetMaterial(string _fileName)
+		{
+			Material myMaterial;
+			myMaterial = Resources.Load<Material>("Materials/" + _fileName);
+			return myMaterial;
 		}
 
 		protected float GetDistanceToPlayer(GameObject _player){

@@ -13,6 +13,7 @@ public class Speedy : SubclassSandbox.Enemy {
 		health = 20;
 		damage = 30;
 		thisMeshFilter.mesh = GetMesh("speedy");
+		thisMeshRenderer.material = GetMaterial("SpeedyMat");
 		EventManager.Instance.Register<EnemyDeath>(SpeedUp);
 	}
 	protected override void Update(){

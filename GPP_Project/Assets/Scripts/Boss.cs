@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Security;
+using System.Runtime.Remoting.Messaging;
+using System.Runtime.Remoting.Metadata;
 using NUnit.Framework.Constraints;
 using UnityEngine;
 using SubclassSandbox;
@@ -15,8 +18,16 @@ public class Boss : SubclassSandbox.Enemy
     private Projectile projectileThatHitMe;
     private bool isInSecondState;
     private bool isInThirdState;
-    public Task currentTask;
-
+     
+    //healthy phase tasks
+    private Task growTask;
+    private Task shrinkTask;
+    private Task attackTask;
+    private Task attackTask1;
+    private List<Task> healthyTaskList = new List<Task>();
+    private List<Task> midTaskList = new List<Task>();
+    private List<Task> critTaskList = new List<Task>();
+     
     public enum HealthState
     {
         Healthy,
@@ -28,26 +39,60 @@ public class Boss : SubclassSandbox.Enemy
 
     protected override void Start () {
         base.Start();
+        //initialize the tasks
+        growTask = new Scale(gameObject, Vector3.one, Vector3.one * 5, 5f);
+        shrinkTask = new Scale(gameObject, Vector3.one * 5, Vector3.one, 5f);
+        attackTask = new BasicAttack(gameObject, 1f);
+        attackTask1 = new BasicAttack(gameObject, 1f);
+        
+        healthyTaskList.Add(growTask);
+        healthyTaskList.Add(shrinkTask);
+        healthyTaskList.Add(attackTask);
+        healthyTaskList.Add(attackTask1);
         
         gameObject.AddComponent<SphereCollider>();
         gameObject.GetComponent<SphereCollider>().isTrigger = true;
         gameObject.GetComponent<SphereCollider>().radius = 1;
         gameObject.AddComponent<Rigidbody>();
         gameObject.GetComponent<Rigidbody>().isKinematic = true;
+        
         speed = 0.5f;
         health = 500f;
         fullHealth = health;
         midHealth = health * 0.5f;
         critHealth = health * 0.15f;
         thisMeshFilter.mesh = GetMesh("Boss");
+        thisMeshRenderer.material = GetMaterial("BossMat");
+        
          _em = EnemyManager.enemyManager;
+        
         FirstBehaviorPattern();
     }
 
+    
+ 
     protected override void Update ()
     {
          _tm.Update();
-        
+
+//        if (Input.GetKeyDown(KeyCode.P))
+//        {
+//            foreach (var task in healthyTaskList)
+//            {
+//                task.Abort();
+//            }
+//
+//            foreach (var task in midTaskList)
+//            {
+//                task.Abort();
+//            }
+//
+//            foreach (var task in critTaskList)
+//            {
+//                task.Abort();
+//            }
+//        }
+
         if (health <= fullHealth && health > midHealth)
         {
             healthState = HealthState.Healthy;
@@ -68,6 +113,11 @@ public class Boss : SubclassSandbox.Enemy
             case HealthState.Mid:
                 if (!isInSecondState)
                 {
+                    
+                    foreach (var task in healthyTaskList)
+                    {
+                        task.Abort();   
+                    }
                     SecondBehaviorPattern();
                     isInSecondState = true;
                 }
@@ -75,6 +125,10 @@ public class Boss : SubclassSandbox.Enemy
             case HealthState.Crit:
                 if (!isInThirdState)
                 {
+                    foreach (var task in midTaskList)
+                    {
+                        task.Abort();   
+                    }
                     ThirdBehaviorPattern();
                     isInThirdState = true;
                 }
@@ -100,47 +154,29 @@ public class Boss : SubclassSandbox.Enemy
 
     public void FirstBehaviorPattern()
     {
-        // Just setting up some variables so the task constructors below are a little easier to read...
-//        var startPos = Camera.main.ViewportToWorldPoint(new Vector3(0, 0.5f, 10));
-//        var endPos = Camera.main.ViewportToWorldPoint(new Vector3(1, 0.5f, 10));
-//        var midPos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 10));
         var myStartPos = transform.position;
         var myEndPos = Player.instance.transform.position + (Vector3.forward * 10f) + (Vector3.left * 10f);
         var myMidPos = Player.instance.transform.position + Vector3.one;
         
         var startScale = Vector3.one;
         var endScale = startScale * 5;
-
-        // Teleport to center.
+        
         _tm.Do(new SetPos(gameObject, Vector3.zero))
-            .Then(new Scale(gameObject, startScale, endScale, 5f))
-            .Then(new Move(gameObject, myStartPos, myEndPos, 2f))
-            .Then(new BasicAttack(gameObject, 1f))
-            .Then(new BasicAttack(gameObject, 1f))
-            .Then(new BasicAttack(gameObject, 1f))
-            .Then(new BasicAttack(gameObject, 1f))
-            .Then(new BasicAttack(gameObject, 1f))
-            .Then(new BasicAttack(gameObject, 1f))
-            .Then(new Move(gameObject, myEndPos, myStartPos, 2f))
-            .Then(new BasicAttack(gameObject, 1f))
-            .Then(new BasicAttack(gameObject, 1f))
-            .Then(new BasicAttack(gameObject, 1f))
-            .Then(new BasicAttack(gameObject, 1f))
-            .Then(new BasicAttack(gameObject, 1f))
-            .Then(new BasicAttack(gameObject, 1f))
-            .Then(new Scale(gameObject, endScale, startScale, 5f))
-//            .Then(new ActionTask(FirstBehaviorPattern))
-            .Then(new ActionTask(EndFirstBehavior));
-//            .Then(new ActionTask(SecondBehaviorPattern))
-//            .Then(new ActionTask(ThirdBehaviorPattern));
-    }
+            .Then(growTask)
+            .Then(attackTask)
+            .Then(MoveTask(myStartPos, myEndPos))
+            .Then(attackTask1)
+            .Then(shrinkTask)
+            .Then(MoveTask(myEndPos, myStartPos))
+            .Then(new ActionTask(FirstBehaviorPattern));
+     }
 
     
     public void SecondBehaviorPattern()
     {
         if (healthState == HealthState.Mid || healthState == HealthState.Crit)
         {
-            _tm.Do(new SpawnMinions(gameObject, 1, transform.position, 1f))
+            _tm.Do(SpawnMinionsTask())
                 .Then(new ActionTask(SecondBehaviorPattern));        
         }
     }
@@ -149,19 +185,11 @@ public class Boss : SubclassSandbox.Enemy
     {
         if (healthState == HealthState.Crit)
         {
-            _tm.Do(new ChaseAttack(gameObject, 60))
-                .Then(new ActionTask(ThirdBehaviorPattern));        
+            _tm.Do(ChaseTask())
+                .Then(new ActionTask(ThirdBehaviorPattern));
         }
     }
     
-    public void EndFirstBehavior()
-    {
-        if (healthState == HealthState.Healthy)
-        {
-            _tm.Do(new ActionTask(FirstBehaviorPattern));            
-        } 
-    }        
-
     protected override void ReceiveDamage(){
         if (projectileThatHitMe != null)
         {
@@ -186,16 +214,34 @@ public class Boss : SubclassSandbox.Enemy
         {
             projectileThatHitMe = other.gameObject.GetComponent<Projectile>();
             ReceiveDamage();
-         }
+        }
 
     }
     
-//    void OnCollisionEnter(Collision other)
-//    {
-//        Debug.Log("Something is inside me");
-//        projectileThatHitMe = other.gameObject.GetComponent<Projectile>();
-//        ReceiveDamage();
-//    }
+    private Task MoveTask(Vector3 pos1, Vector3 pos2)
+    {
+        Task someTask;
+        someTask = new Move(gameObject, pos1, pos2, 2f);
+        healthyTaskList.Add(someTask);
+        return someTask;
+    }
+
+    private Task SpawnMinionsTask()
+    {
+        Task someTask;
+        someTask = new SpawnMinions(gameObject, 1, transform.position, 5);
+        midTaskList.Add(someTask);
+        return someTask;
+    }
+
+    private Task ChaseTask()
+    {
+        Task someTask;
+        someTask = new ChaseAttack(gameObject, 60f);
+        critTaskList.Add(someTask);
+        return someTask;
+    }
+
 
 }
 
@@ -223,7 +269,7 @@ public class SpawnMinions : TimedGOTask
     public SpawnMinions(GameObject gameObject, int numEnemies, Vector3 startPosition, float duration) : base(gameObject, duration)
     {
         _numEnemies = numEnemies;
-         _startPosition = startPosition;
+        _startPosition = startPosition;
     }
     
     protected override void OnTick(float t)
@@ -232,7 +278,7 @@ public class SpawnMinions : TimedGOTask
         if (spawnInterval >= 1f)
         {
             Boss _boss = gameObject.GetComponent<Boss>();
-            EnemyManager.enemyManager.PopulateWaveFromPosition(_numEnemies, _startPosition);
+            EnemyManager.enemyManager.SpawnBossMinionWave(_numEnemies, _startPosition);
             spawnInterval = 0;
         }
     }
@@ -241,10 +287,10 @@ public class SpawnMinions : TimedGOTask
 public class BasicAttack : TimedGOTask
 {
     private float attackInterval = 0.25f;
-
+     
     public BasicAttack(GameObject gameObject, float duration) : base(gameObject, duration)
     {
-     }
+    }
     
     protected override void OnTick(float t)
     {
@@ -255,40 +301,31 @@ public class BasicAttack : TimedGOTask
             _boss.BossAttack();
             attackInterval = 0;
         }
-
     }
 }
 
 public class ChaseAttack : TimedGOTask
 {
+    private float attackInterval = 0.25f;
+
     public ChaseAttack(GameObject gameObject, float duration) : base(gameObject, duration)
     {
-        
-     }
+        Boss _boss = gameObject.GetComponent<Boss>();
+      }
     
     protected override void OnTick(float t)
     {
         Boss _boss = gameObject.GetComponent<Boss>();
         _boss.ChasePlayer();
+        attackInterval += Time.deltaTime;
+        if (attackInterval >= 0.25f)
+        {
+             _boss.BossAttack();
+            attackInterval = 0;
+        }
     }
 }
 
-/*public class Move : TimedGOTask
-{
-    public Vector3 Start { get; private set; }
-    public Vector3 End { get; private set; }
-
-    public Move(GameObject gameObject, Vector3 start, Vector3 end, float duration) : base(gameObject, duration)
-    {
-        Start = start;
-        End = end;
-    }
-
-    protected override void OnTick(float t)
-    {
-        gameObject.transform.position = Vector3.Lerp(Start, End, t);
-    }
-}*/
 
 
 

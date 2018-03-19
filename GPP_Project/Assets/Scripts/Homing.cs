@@ -12,6 +12,7 @@ public class Homing : SubclassSandbox.Enemy {
 		damage = 50;
 		audioSource.clip = GetAudioClip("explosion_2");
   		thisMeshFilter.mesh = GetMesh("homing");
+		thisMeshRenderer.material = GetMaterial("HomingMat");
 	}
 	protected override void Update(){
 		base.Update();

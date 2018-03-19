@@ -14,6 +14,7 @@ public class Sniper : SubclassSandbox.Enemy {
 		health = 20f;
 		damage = 30f;	
 		thisMeshFilter.mesh = GetMesh("sniper");
+		thisMeshRenderer.material = GetMaterial("SniperMat");
 	}
 	
 	// Update is called once per frame
