@@ -21,10 +21,9 @@ public class EnemyManager {
 	{
 		waveNum = 0;
 		enemyEmissionTime = 5;
-		enemiesToSpawn = 1;
+		enemiesToSpawn = 5;
 		EventManager.Instance.Register<EnemyDeath>(CountEnemyDeath);
-//		SpawnSpecificEnemy(3, Player.instance.transform.position + Vector3.forward * 1000);
-	}
+ 	}
 	
 	// Update is called once per frame
 	public void Update () {

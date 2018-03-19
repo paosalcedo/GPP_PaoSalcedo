@@ -44,7 +44,8 @@ public class Homing : SubclassSandbox.Enemy {
 				audioSource.PlayOneShot(audioSource.clip);
 			}
 			gameObject.GetComponent<MeshRenderer>().enabled = false;
-			Destroy(gameObject, audioSource.clip.length);
+			DestroyMe();
+//			Destroy(gameObject, audioSource.clip.length);
 		}
 	}
 
