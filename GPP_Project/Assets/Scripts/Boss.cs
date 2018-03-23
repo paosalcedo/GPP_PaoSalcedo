@@ -20,10 +20,8 @@ public class Boss : SubclassSandbox.Enemy
     private bool isInThirdState;
      
     //healthy phase tasks
-    private Task growTask;
-    private Task shrinkTask;
-    private Task attackTask;
-    private Task attackTask1;
+    private Task growTask, shrinkTask, attackTask, attackTask1;
+    
     private List<Task> healthyTaskList = new List<Task>();
     private List<Task> midTaskList = new List<Task>();
     private List<Task> critTaskList = new List<Task>();
@@ -38,17 +36,7 @@ public class Boss : SubclassSandbox.Enemy
     [SerializeField]private HealthState healthState;
 
     protected override void Start () {
-        base.Start();
-        //initialize the tasks
-        growTask = new Scale(gameObject, Vector3.one, Vector3.one * 5, 5f);
-        shrinkTask = new Scale(gameObject, Vector3.one * 5, Vector3.one, 5f);
-        attackTask = new BasicAttack(gameObject, 1f);
-        attackTask1 = new BasicAttack(gameObject, 1f);
-        
-        healthyTaskList.Add(growTask);
-        healthyTaskList.Add(shrinkTask);
-        healthyTaskList.Add(attackTask);
-        healthyTaskList.Add(attackTask1);
+        base.Start();  
         
         gameObject.AddComponent<SphereCollider>();
         gameObject.GetComponent<SphereCollider>().isTrigger = true;
@@ -75,63 +63,29 @@ public class Boss : SubclassSandbox.Enemy
     {
          _tm.Update();
 
-//        if (Input.GetKeyDown(KeyCode.P))
-//        {
-//            foreach (var task in healthyTaskList)
-//            {
-//                task.Abort();
-//            }
-//
-//            foreach (var task in midTaskList)
-//            {
-//                task.Abort();
-//            }
-//
-//            foreach (var task in critTaskList)
-//            {
-//                task.Abort();
-//            }
-//        }
-
-        if (health <= fullHealth && health > midHealth)
-        {
-            healthState = HealthState.Healthy;
-        }
-        else if (health <= midHealth && health > critHealth)
-        {
-            healthState = HealthState.Mid;
-        }
-        else if (health <= critHealth )
-        {
-            healthState = HealthState.Crit;
-        }
-        
         switch (healthState)
         {
             case HealthState.Healthy:
-                break;
-            case HealthState.Mid:
-                if (!isInSecondState)
+                if (health <= midHealth && health > critHealth)
                 {
-                    
                     foreach (var task in healthyTaskList)
                     {
                         task.Abort();   
                     }
                     SecondBehaviorPattern();
-                    isInSecondState = true;
                 }
                 break;
-            case HealthState.Crit:
-                if (!isInThirdState)
+            case HealthState.Mid:
+                if (health <= critHealth )
                 {
                     foreach (var task in midTaskList)
                     {
                         task.Abort();   
                     }
                     ThirdBehaviorPattern();
-                    isInThirdState = true;
                 }
+                break;
+            case HealthState.Crit:
                 break;
             default:
                 break;
@@ -140,7 +94,6 @@ public class Boss : SubclassSandbox.Enemy
 
     protected override void Move()
     {
-        
     }
 
     protected override void Shoot()
@@ -154,12 +107,18 @@ public class Boss : SubclassSandbox.Enemy
 
     public void FirstBehaviorPattern()
     {
+        growTask = new Scale(gameObject, Vector3.one, Vector3.one * 5, 5f);
+        shrinkTask = new Scale(gameObject, Vector3.one * 5, Vector3.one, 5f);
+        attackTask = new BasicAttack(gameObject, 1f);
+        attackTask1 = new BasicAttack(gameObject, 1f);
+        
+        healthyTaskList.Add(growTask);
+        healthyTaskList.Add(shrinkTask);
+        healthyTaskList.Add(attackTask);
+        healthyTaskList.Add(attackTask1);
+
         var myStartPos = transform.position;
         var myEndPos = Player.instance.transform.position + (Vector3.forward * 10f) + (Vector3.left * 10f);
-        var myMidPos = Player.instance.transform.position + Vector3.one;
-        
-        var startScale = Vector3.one;
-        var endScale = startScale * 5;
         
         _tm.Do(new SetPos(gameObject, Vector3.zero))
             .Then(growTask)
@@ -174,20 +133,16 @@ public class Boss : SubclassSandbox.Enemy
     
     public void SecondBehaviorPattern()
     {
-        if (healthState == HealthState.Mid || healthState == HealthState.Crit)
-        {
-            _tm.Do(SpawnMinionsTask())
-                .Then(new ActionTask(SecondBehaviorPattern));        
-        }
+        healthState = HealthState.Mid;
+        _tm.Do(SpawnMinionsTask())
+            .Then(new ActionTask(SecondBehaviorPattern));        
     }
 
     public void ThirdBehaviorPattern()
     {
-        if (healthState == HealthState.Crit)
-        {
-            _tm.Do(ChaseTask())
-                .Then(new ActionTask(ThirdBehaviorPattern));
-        }
+        healthState = HealthState.Crit;
+        _tm.Do(ChaseTask())
+            .Then(new ActionTask(ThirdBehaviorPattern));
     }
     
     protected override void ReceiveDamage(){

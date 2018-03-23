@@ -5,7 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour {
 
  	public float speed = 30;
-	public float damage = 100;
+	public float damage = 1;
 	public Vector3 pos;
 	float lifeTime = 5f;
 	Player player;

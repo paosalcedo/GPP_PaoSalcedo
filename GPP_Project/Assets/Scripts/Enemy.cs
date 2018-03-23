@@ -98,7 +98,7 @@ namespace SubclassSandbox {
 				if(GetDistanceToProjectile(projectile) <= 1f){
 					health -= projectile.damage;
 					Debug.Log("You hit " + gameObject.name);
- 					projectile.DestroyMe();
+					projectile.DestroyMe();
  				}
 			}
 		}

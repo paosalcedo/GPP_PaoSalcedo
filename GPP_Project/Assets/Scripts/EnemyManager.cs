@@ -117,29 +117,24 @@ public class EnemyManager {
 				homingEnemy.AddComponent<Homing>();
  				homingEnemy.transform.position = _pos;
 				return homingEnemy;
-  			break;
 			case 1: //sniper enemy
  				GameObject sniperEnemy = new GameObject ("SniperEnemy");
 				sniperEnemy.AddComponent<Sniper>();
  				sniperEnemy.transform.position = _pos;
 				return sniperEnemy;
-  			break;
-			case 2: //speedy enemy
+ 			case 2: //speedy enemy
 				GameObject speedyEnemy = new GameObject ("SpeedyEnemy");
 				speedyEnemy.AddComponent<Speedy>();
 				speedyEnemy.transform.position = _pos;
 				return speedyEnemy;
- 			break;
-			case 3: //boss
+ 			case 3: //boss
 				GameObject boss = new GameObject("Boss");
  				boss.AddComponent<Boss>();
 				_boss = boss;
 				return boss;
- 			break;
-			default:
+ 			default:
 				return null;
-			break;
-		}	
+ 		}	
 	}
 
 	public int enemiesSpawned = 0;

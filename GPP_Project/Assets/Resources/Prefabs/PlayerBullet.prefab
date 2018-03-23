@@ -196,5 +196,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
-  damage: 100
+  damage: 10
   pos: {x: 0, y: 0, z: 0}
