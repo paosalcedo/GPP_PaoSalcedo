@@ -19,9 +19,9 @@ public class EnemyManager {
 	
 	public void Start ()
 	{
-		waveNum = 0;
+		waveNum = 1;
 		enemyEmissionTime = 5;
-		enemiesToSpawn = 5;
+		enemiesToSpawn = 1;
 		EventManager.Instance.Register<EnemyDeath>(CountEnemyDeath);
  	}
 	
