@@ -522,7 +522,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114676489191013802}
-        m_MethodName: SelectEasy
+        m_MethodName: SelectHard
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -635,7 +635,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114676489191013802}
-        m_MethodName: SelectEasy
+        m_MethodName: SelectNormal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

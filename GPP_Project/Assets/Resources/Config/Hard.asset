@@ -13,3 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Difficulty
   _maxNumEnemiesInWave: 15
   _minNumEnemiesInWave: 10
+  _myName: TOUGH AS NAILS

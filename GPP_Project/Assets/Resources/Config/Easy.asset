@@ -13,3 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Difficulty
   _maxNumEnemiesInWave: 6
   _minNumEnemiesInWave: 3
+  _myName: EZ

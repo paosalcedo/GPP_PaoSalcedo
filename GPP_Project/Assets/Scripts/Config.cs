@@ -19,4 +19,11 @@ public class Difficulty : ScriptableObject
     {
         get { return _minNumEnemiesInWave; }
     }
+
+    [SerializeField] private string _myName;
+
+    public string MyName
+    {
+        get { return _myName; }
+    }
 }

@@ -16,19 +16,19 @@ public class TitleScene : Scene<TransitionData>
 	public void SelectEasy()
 	{	
 		Debug.Log("Selecdted easy");
-		Services.Scenes.PushScene<GameScene>(new TransitionData(_easy));
+		Services.Scenes.PushScene<GameScene>(new TransitionData(_easy, _easy.MyName));
 	}
 
 	public void SelectNormal()
 	{
 		Debug.Log("Selecdted normal");
 
-		Services.Scenes.PushScene<GameScene>(new TransitionData(_normal));
+		Services.Scenes.PushScene<GameScene>(new TransitionData(_normal, _normal.MyName));
 	}
 
 	public void SelectHard()
 	{		
 		Debug.Log("Selecdted hard");
-		Services.Scenes.PushScene<GameScene>(new TransitionData(_hard));
+		Services.Scenes.PushScene<GameScene>(new TransitionData(_hard, _hard.MyName));
 	}
 }

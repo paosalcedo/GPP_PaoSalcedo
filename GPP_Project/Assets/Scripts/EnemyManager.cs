@@ -23,12 +23,15 @@ public class EnemyManager {
 	public void Start ()
 	{
 		waveNum = 0;
+		enemiesToSpawn = Random.Range(minNumEnemiesInWave, maxNumEnemiesInWave);			
 		enemyEmissionTime = 5;
  		EventManager.Instance.Register<EnemyDeath>(CountEnemyDeath);
+		Debug.Log("enemy manager start!");
  	}
 	
 	// Update is called once per frame
 	public void Update () {
+		Debug.Log("Enemy manager update!");
 		EmitWave(waveNum, enemiesToSpawn);
 
 		if (enemiesDead == enemiesInWave.Count && enemiesDead != 0)
@@ -139,7 +142,7 @@ public class EnemyManager {
 	public float enemyEmissionTime;
 	
 	public void EmitWave(int _waveNum, int _numEnemies){
-		
+		Debug.Log("Wave emitting!");
 		switch (_waveNum){
 			case 0:
 				Debug.Log("This is wave " + waveNum);
@@ -148,7 +151,7 @@ public class EnemyManager {
 					enemyEmissionTime += Time.deltaTime;
 					if (enemyEmissionTime >= 5)
 					{
- 						enemiesInWave.Add(SpawnSpecificEnemy(0, Vector3.forward * 100f));
+ 						enemiesInWave.Add(SpawnSpecificEnemy(0, Player.instance.transform.position + Vector3.forward * 100f));
 						enemyEmissionTime = 0;
 					}
 				}
@@ -161,7 +164,7 @@ public class EnemyManager {
 					if (enemyEmissionTime >= 1)
 					{
 //						SpawnSpecificEnemy(1, Vector3.forward * 100f);
-						enemiesInWave.Add(SpawnSpecificEnemy(1, Vector3.forward * 100f));
+						enemiesInWave.Add(SpawnSpecificEnemy(1, Player.instance.transform.position + Vector3.forward * 100f));
 						enemyEmissionTime = 0;
 					}
 				}
@@ -174,7 +177,7 @@ public class EnemyManager {
 					if (enemyEmissionTime >= 1)
 					{
 //						SpawnSpecificEnemy(2, Vector3.forward * 100f);
-						enemiesInWave.Add(SpawnSpecificEnemy(2, Vector3.forward * 100f));
+						enemiesInWave.Add(SpawnSpecificEnemy(2, Player.instance.transform.position + Vector3.forward * 100f));
 						enemyEmissionTime = 0;
 					}
 				}
@@ -218,11 +221,13 @@ public class EnemyManager {
 		EnemyDeath enemyDeath = e as EnemyDeath;
 		if (waveNum != 3)
 		{
-			enemiesDead++;		
+			enemiesDead++;
+			score++;
 		}
 		else
 		{
 			bossMinionsKilled++;
+			score++;
 		}
 
 
