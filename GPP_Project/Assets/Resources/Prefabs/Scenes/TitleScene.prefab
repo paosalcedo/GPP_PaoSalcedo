@@ -435,7 +435,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114113839449299702}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114676489191013802}
+        m_MethodName: SelectEasy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114264144306091504
@@ -509,7 +520,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114049488824492746}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114676489191013802}
+        m_MethodName: SelectEasy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114537308896467342
@@ -570,9 +592,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353085c3a0b579044842baa27ee5b35a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _easy: {fileID: 11400000, guid: 9097fda94a2313042bce387bc131a97d, type: 2}
-  _normal: {fileID: 11400000, guid: bd317de6c268b5843992aa545a75ebab, type: 2}
-  _hard: {fileID: 11400000, guid: 86bb613b2a314164bab922cd9f4315a1, type: 2}
+  _easy: {fileID: 11400000, guid: fe2fdd9d46f76c2469a45b62d38a39e5, type: 2}
+  _normal: {fileID: 11400000, guid: 739274f1637cede44adbc77b313ef2a5, type: 2}
+  _hard: {fileID: 11400000, guid: ffbfbe8e4c20c4c4988900ec45c9016c, type: 2}
 --- !u!114 &114747738066696906
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -611,7 +633,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114173191282166336}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114676489191013802}
+        m_MethodName: SelectEasy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114756991680638288

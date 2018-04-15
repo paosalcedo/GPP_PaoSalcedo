@@ -126,6 +126,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4642679366180322}
+  - component: {fileID: 114812436575669990}
   m_Layer: 0
   m_Name: GameScene
   m_TagString: Untagged
@@ -499,6 +500,21 @@ MonoBehaviour:
   shields: 0
   moveSpeed: 10
   myModel: {fileID: 1938728383359242}
+--- !u!114 &114812436575669990
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1904177570244786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 997b8c1d38bc6cb40afd1d722b0a2cfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startNumEnemies: 0
+  _maxNumEnemiesInWave: 0
+  enemiesSpawned: 0
+  enemyEmissionTime: 0
 --- !u!114 &114900146535531494
 MonoBehaviour:
   m_ObjectHideFlags: 1

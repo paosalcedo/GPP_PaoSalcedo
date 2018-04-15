@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Name: Hard
   m_EditorClassIdentifier: Assembly-CSharp::Difficulty
   _maxNumEnemiesInWave: 15
-  _minNumEnemiesInWave: 8
+  _minNumEnemiesInWave: 10

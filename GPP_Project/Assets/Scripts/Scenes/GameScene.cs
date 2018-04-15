@@ -11,21 +11,21 @@ public class GameScene : Scene<TransitionData> {
 	[SerializeField] private int enemiesSpawned;
 	[SerializeField] private float enemyEmissionTime;
 
-	protected override void OnEnter(TransitionData data){
-		_difficulty = data.difficulty;
- 		Services.EnemyManager.maxNumEnemiesInWave = _difficulty.MaxNumEnemiesInWave;
-		Services.EnemyManager.minNumEnemiesInWave = _difficulty.MinNumEnemiesInWave;
-	}
-	
-	void Start () {
-		Services.EnemyManager.Start();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		Services.EnemyManager.Update();
-		enemiesSpawned = Services.EnemyManager.enemiesSpawned;
-		enemyEmissionTime = Services.EnemyManager.enemyEmissionTime;
-	}
+//	protected override void OnEnter(TransitionData data){
+//		_difficulty = data.difficulty;
+// 		Services.EnemyManager.maxNumEnemiesInWave = _difficulty.MaxNumEnemiesInWave;
+//		Services.EnemyManager.minNumEnemiesInWave = _difficulty.MinNumEnemiesInWave;
+//	}
+//	
+//	void Start () {
+//		Services.EnemyManager.Start();
+//	}
+//	
+//	// Update is called once per frame
+//	void Update () {
+//		Services.EnemyManager.Update();
+//		enemiesSpawned = Services.EnemyManager.enemiesSpawned;
+//		enemyEmissionTime = Services.EnemyManager.enemyEmissionTime;
+//	}
 
 }
