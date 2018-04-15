@@ -15,7 +15,7 @@ public class Scene<TTransitionData> : MonoBehaviour {
         OnEnter(data);
     }
 
-    internal void _OnExit(TTransitionData data)
+    internal void _OnExit()
     {
         Root.SetActive(false);
         OnExit();

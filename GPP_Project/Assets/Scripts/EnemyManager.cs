@@ -11,27 +11,24 @@ public class EnemyManager {
  	public int wavesDefeated = 0;
 	public int waveNum = 0;
 	public int enemiesDead;
-	public int enemiesToSpawn;
-	private int bossMinionsKilled;
+	public int maxNumEnemiesInWave;
+	public int minNumEnemiesInWave;
+	private int enemiesToSpawn;
+ 	private int bossMinionsKilled;
 	private int bossWaveSize = 5;
 	private bool bossAdded = false;
 	private GameObject _boss;
+	[HideInInspector]public int score;
 	
 	public void Start ()
 	{
-		waveNum = 1;
+		waveNum = 0;
 		enemyEmissionTime = 5;
-		enemiesToSpawn = 1;
-		EventManager.Instance.Register<EnemyDeath>(CountEnemyDeath);
+ 		EventManager.Instance.Register<EnemyDeath>(CountEnemyDeath);
  	}
 	
 	// Update is called once per frame
 	public void Update () {
-//		if(enemiesInWave.Count==0){
-//			wavesDefeated++;
-//			waveNum++;
-//		}
- 		
 		EmitWave(waveNum, enemiesToSpawn);
 
 		if (enemiesDead == enemiesInWave.Count && enemiesDead != 0)
@@ -41,7 +38,7 @@ public class EnemyManager {
 			waveNum += 1;
 			if (waveNum != 3)
 			{
-				enemiesToSpawn = Random.Range(3, 8);			
+				enemiesToSpawn = Random.Range(minNumEnemiesInWave, maxNumEnemiesInWave);			
 			} else if (waveNum == 3)
 			{
 				enemiesToSpawn = 1;
