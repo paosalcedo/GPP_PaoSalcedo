@@ -23,12 +23,12 @@ public class Sniper : SubclassSandbox.Enemy {
 		thisMeshRenderer.material = GetMaterial("SniperMat");
 		_tree = new Tree<Sniper>(
 			new Selector<Sniper>(
-				new Sequence<Sniper>(
+				new Sequence<Sniper>( //if health is low and player is near, get out
 					new IsInDanger(),
 					new IsPlayerInRange(),
 					new FleeToHeal()
 				),
-				new Sequence<Sniper>(
+				new Sequence<Sniper>( 
 					new IsPlayerInRange(),
 					new Attack()
 				),
