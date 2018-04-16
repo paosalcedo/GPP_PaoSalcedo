@@ -97,6 +97,20 @@ public class SceneManager<TTransitionData> {
             Object.Destroy(previousScene.Root);
         }
     }
+    
+    public void Switch<T>(TTransitionData data = default(TTransitionData)) where T : Scene<TTransitionData>
+    {
+        var previousScene = CurrentScene;//assign GameScene to prevScene
+        var nextScene = GetScene<T>(); //assign PauseScene to nextScene
+        
+        nextScene._OnEnter(data); //call OnEnter on PauseScene
+
+        if (previousScene != null) //is true for GameScene
+        {
+            previousScene.Root.SetActive(false); //just sets it to false.
+        }
+    }
+
 
     private T GetScene<T>() where T : Scene<TTransitionData>
     {

@@ -13,12 +13,15 @@ public class GameScene : Scene<TransitionData> {
 	[SerializeField] private float enemyEmissionTime;
 
 	protected override void OnEnter(TransitionData data){
-		_difficulty = data.difficulty;
- 		Services.EnemyManager.maxNumEnemiesInWave = _difficulty.MaxNumEnemiesInWave;
-		Services.EnemyManager.minNumEnemiesInWave = _difficulty.MinNumEnemiesInWave;
-		_minNumEnemiesInWave = Services.EnemyManager.minNumEnemiesInWave;
-		_maxNumEnemiesInWave = Services.EnemyManager.maxNumEnemiesInWave;
-		InstantiatePlayer();		
+		if (data != null)
+		{
+			_difficulty = data.difficulty;
+			Services.EnemyManager.maxNumEnemiesInWave = _difficulty.MaxNumEnemiesInWave;
+			Services.EnemyManager.minNumEnemiesInWave = _difficulty.MinNumEnemiesInWave;
+			_minNumEnemiesInWave = Services.EnemyManager.minNumEnemiesInWave;
+			_maxNumEnemiesInWave = Services.EnemyManager.maxNumEnemiesInWave;
+			InstantiatePlayer();		
+		}
 	}
 	
 	void Start () {
@@ -40,9 +43,16 @@ public class GameScene : Scene<TransitionData> {
 		enemiesSpawned = Services.EnemyManager.enemiesSpawned;
 		enemyEmissionTime = Services.EnemyManager.enemyEmissionTime;
 
-		if (Input.GetKeyDown(KeyCode.P))
+		if (Input.GetKeyDown(KeyCode.G))
 		{
 			Services.Scenes.PushScene<GameOverScene>(new TransitionData(_difficulty, _difficulty.MyName, Services.EnemyManager.score));
+		}
+
+		if (Input.GetKeyDown(KeyCode.P))
+		{
+//			Services.Scenes.CurrentScene.gameObject.SetActive(false);
+			
+			Services.Scenes.Switch<PauseScene>();			
 		}
 	}
 
