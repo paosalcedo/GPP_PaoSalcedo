@@ -18,12 +18,22 @@ public class GameScene : Scene<TransitionData> {
 		Services.EnemyManager.minNumEnemiesInWave = _difficulty.MinNumEnemiesInWave;
 		_minNumEnemiesInWave = Services.EnemyManager.minNumEnemiesInWave;
 		_maxNumEnemiesInWave = Services.EnemyManager.maxNumEnemiesInWave;
+		InstantiatePlayer();		
 	}
 	
 	void Start () {
 		Services.EnemyManager.Start();
+
+		Debug.Log("Gamescene start!");
 	}
-	
+
+	void InstantiatePlayer()
+	{
+		GameObject player = Instantiate(Resources.Load<GameObject>("Prefabs/Player"));
+		player.transform.position = Vector3.zero;
+		Debug.Log("Player instantiated!");
+	}
+
 	// Update is called once per frame
 	void Update () {
 		Services.EnemyManager.Update();

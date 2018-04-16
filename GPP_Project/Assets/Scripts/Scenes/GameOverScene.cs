@@ -12,10 +12,20 @@ public class GameOverScene : Scene<TransitionData>
 	protected override void OnEnter(TransitionData data)
 	{
 		_scoreText.text = "You destroyed " + data.score + " " + data.difficultyName + " enemies!";
+		Cursor.lockState = CursorLockMode.None;
 	}
 
-	public void Restart()
+	void Update()
 	{
-		
+		if (Input.GetKeyDown(KeyCode.T))
+		{
+			ReturnToTitleScreen();
+		}
+	}
+
+	public void ReturnToTitleScreen()
+	{
+		Debug.Log("Returning to title!");
+		Services.Scenes.Swap<TitleScene>();
 	}
 }

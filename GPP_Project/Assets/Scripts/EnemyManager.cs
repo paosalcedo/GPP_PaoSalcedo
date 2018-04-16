@@ -26,13 +26,11 @@ public class EnemyManager {
 		enemiesToSpawn = Random.Range(minNumEnemiesInWave, maxNumEnemiesInWave);			
 		enemyEmissionTime = 5;
  		EventManager.Instance.Register<EnemyDeath>(CountEnemyDeath);
-		Debug.Log("enemy manager start!");
- 	}
+  	}
 	
 	// Update is called once per frame
 	public void Update () {
-		Debug.Log("Enemy manager update!");
-		EmitWave(waveNum, enemiesToSpawn);
+ 		EmitWave(waveNum, enemiesToSpawn);
 
 		if (enemiesDead == enemiesInWave.Count && enemiesDead != 0)
 		{
@@ -116,20 +114,24 @@ public class EnemyManager {
 				GameObject homingEnemy = new GameObject("HomingEnemy");
 				homingEnemy.AddComponent<Homing>();
  				homingEnemy.transform.position = _pos;
+				homingEnemy.transform.SetParent(MonoBehaviour.FindObjectOfType<GameScene>().transform);
 				return homingEnemy;
 			case 1: //sniper enemy
  				GameObject sniperEnemy = new GameObject ("SniperEnemy");
 				sniperEnemy.AddComponent<Sniper>();
  				sniperEnemy.transform.position = _pos;
+				sniperEnemy.transform.SetParent(MonoBehaviour.FindObjectOfType<GameScene>().transform);
 				return sniperEnemy;
  			case 2: //speedy enemy
 				GameObject speedyEnemy = new GameObject ("SpeedyEnemy");
 				speedyEnemy.AddComponent<Speedy>();
 				speedyEnemy.transform.position = _pos;
+				speedyEnemy.transform.SetParent(MonoBehaviour.FindObjectOfType<GameScene>().transform);
 				return speedyEnemy;
  			case 3: //boss
 				GameObject boss = new GameObject("Boss");
  				boss.AddComponent<Boss>();
+				boss.transform.SetParent(MonoBehaviour.FindObjectOfType<GameScene>().transform);
 				_boss = boss;
 				return boss;
  			default:
