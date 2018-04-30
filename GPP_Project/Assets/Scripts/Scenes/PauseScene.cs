@@ -8,8 +8,10 @@ public class PauseScene : Scene<TransitionData> {
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            this.gameObject.SetActive(false);
-            Services.Scenes.CurrentScene.gameObject.SetActive(true);
+//            this.gameObject.SetActive(false);
+//            Services.Scenes.CurrentScene.gameObject.SetActive(true);
+            
+            Services.Scenes.PopScene();
         }
     }
 }

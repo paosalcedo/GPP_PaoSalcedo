@@ -1,0 +1,51 @@
+Description: High quality piano samples for making MOD, S3M etc songs
+Keywords: Piano samples 16-bit 44.1kHz .wav format
+Author: eassa@execpc.com (Hussam Eassa)
+Uploader: eassa@execpc.com (Hussam Eassa)
+Uploaded-to: ftp.cdrom.com (30 May 1996)
+Suggested location : pub/demos/music/samples
+
+Hello everyone.
+
+This sample pack contains Roland Sound Canvas Acoustic Grand Piano
+samples from the Roland SCC-1 MIDI sound card. The piano samples span C2
+through C9 in one octave steps. The amplitudes have NOT been maximized
+to retain the relative volume of each sound. Also, some attempt has
+been made to reduce sample length but they were allowed to ring out
+a little. Users of these samples are, of course, free to edit them
+to suit their needs.
+ 
+Although the samples are in .wav format, they can be ported to .smp, 
+.raw or almost any other using a program such as Cool Edit or Goldwave.
+
+Technical Specs:
+
+All samples are 44.1kHz, 16 bit and were created by playing
+different acoustic grand piano notes on the Roland SCC-1, and capturing 
+them live using a Turtle Beach Multisound. Post editing was done 
+remove the dead space and to control the sample length.
+
+This archive contains the following samples:
+
+File Name          Size     
+------------       -------
+
+C2      .WAV       220,836  
+C3      .WAV       246,672  
+C4      .WAV       196,686 
+C5      .WAV       226,122
+C6      .WAV       224,994
+C7      .WAV       196,916
+C8      .WAV       115,178 
+C9      .WAV        81,080 
+SC_PIANO DOC         1,680 
+
+
+Hope you find them useful.
+
+
+Hussam Eassa
+
+--
+        [ Sam Eassa - eassa@execpc.com - Milwaukee, Wisconsin USA ]
+

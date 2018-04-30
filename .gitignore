@@ -35,6 +35,7 @@ sysinfo.txt
 *.tif
 *.zip
 *.exr
+*.tga
 GPP_Project/Assets/Plugins/Editor/JetBrains/Unity3DRider.cs
 GPP_Project/.idea/.idea.GPP_Project/riderModule.iml
 GPP_Project/.idea/.idea.GPP_Project/.idea/modules.xml
@@ -45,5 +46,10 @@ GPP_Project/Assets/Plugins.meta
 GPP_Project/.idea/.idea.GPP_Project/.idea/workspace.xml
 GPP_Project/.idea/.idea.GPP_Project/.idea/indexLayout.xml
 GPP_Project/Assets/Plugins/Editor/JetBrains.meta
+*.tga
 
 
+PrototypeStudio_AssetKit/Assets/Prototype Assets/meshes/atlantic salmon textures/atlantic salmon _specular.tga.meta
+PrototypeStudio_AssetKit/Assets/Prototype Assets/meshes/atlantic salmon textures/atlantic salmon _specular.tga
+PrototypeStudio_AssetKit/Assets/Prototype Assets/meshes/atlantic salmon textures/atlantic salmon _normal.tga.meta
+PrototypeStudio_AssetKit/Assets/Prototype Assets/meshes/atlantic salmon textures/atlantic salmon _normal.tga

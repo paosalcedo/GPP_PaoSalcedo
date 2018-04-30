@@ -27,15 +27,13 @@ public class GameScene : Scene<TransitionData> {
 	void Start () {
 		Services.EnemyManager.Start();
 
-		Debug.Log("Gamescene start!");
-	}
+ 	}
 
 	void InstantiatePlayer()
 	{
 		GameObject player = Instantiate(Resources.Load<GameObject>("Prefabs/Player"));
 		player.transform.position = Vector3.zero;
-		Debug.Log("Player instantiated!");
-	}
+ 	}
 
 	// Update is called once per frame
 	void Update () {
@@ -50,9 +48,7 @@ public class GameScene : Scene<TransitionData> {
 
 		if (Input.GetKeyDown(KeyCode.P))
 		{
-//			Services.Scenes.CurrentScene.gameObject.SetActive(false);
-			
-			Services.Scenes.Switch<PauseScene>();			
+			Services.Scenes.PushScene<PauseScene>();
 		}
 	}
 

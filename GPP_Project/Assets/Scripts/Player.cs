@@ -38,18 +38,6 @@ public class Player : MonoBehaviour {
 	void Update(){
 		GetInput();
 		ProcessInput();
-
-//		if(transform.position.x < -8.2f){
-//			transform.position = new Vector3(8.2f, 0, transform.position.z);
-//		} else if (transform.position.x > 8.2f){
-//			transform.position = new Vector3(-8.2f, 0, transform.position.z);
-//		}
-//
-//		if(transform.position.z < -5.5f){
-//			transform.position = new Vector3(transform.position.x, 0, 25.6f);
-//		} else if (transform.position.z > 25.6f){
-//			transform.position = new Vector3(transform.position.x, 0, -5.5f);
-//		}
  	}
 	
 	void GetInput(){
